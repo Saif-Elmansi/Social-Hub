@@ -1,0 +1,53 @@
+@import "tailwindcss";
+@plugin '../hero.js';
+@source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@custom-variant dark (&:is(.dark *));
+
+@utility container {
+  margin: auto;
+
+  @media (width>= 96rem) {
+    max-width: 85rem;
+  }
+}
+
+@layer components {
+  .link {
+    @apply text-lg font-light  after:h-1 after:w-0 after:bg-blue-500 after:absolute relative after:-bottom-2 after:start-0 hover:after:w-full after:transition-all after:duration-300 hover:font-semibold hover:duration-300;
+  }
+  .input {
+    @apply w-full bg-gray-200 py-3 px-4 border-2 border-gray-300 rounded-xl focus:border-blue-500 outline-none my-3;
+  }
+  .btn {
+    @apply bg-blue-600 w-full py-2 rounded-lg mt-2 text-white text-xl hover:bg-white hover:text-blue-600 border-2 border-blue-600 transition-all duration-300 cursor-pointer;
+  }
+}
+
+
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px; 
+}
+
+
+::-webkit-scrollbar-track {
+  background: #18191a; 
+}
+
+
+::-webkit-scrollbar-thumb {
+  background: #3e4042; 
+  border-radius: 10px; 
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4e4f50; 
+}
+
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3e4042 #18191a;
+}
