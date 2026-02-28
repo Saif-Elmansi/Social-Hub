@@ -45,7 +45,7 @@ export default function MainHome() {
             </div>
           ) : (
             <div className="flex flex-col items-center px-4 pb-10 ">
-              <CreatPost/>
+              <CreatPost />
               {finalpost}
             </div>
           )}

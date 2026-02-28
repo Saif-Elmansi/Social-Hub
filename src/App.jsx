@@ -9,13 +9,21 @@ import InnversGard from "./Componants/BodyGard/InnversGard";
 import NotFound from "./Componants/NotFound/NotFound";
 import PostDet from "./Page/PostDet/PostDet";
 import Profile from "./Page/Profile/Profile";
+import { ToastContainer } from "react-toastify";
 
 const routs = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
-      { path: "/", element: <InnversGard><Home/></InnversGard> },
+      {
+        path: "/",
+        element: (
+          <InnversGard>
+            <Home />
+          </InnversGard>
+        ),
+      },
       {
         path: "/login",
         element: (
@@ -67,6 +75,7 @@ const routs = createBrowserRouter([
 function App() {
   return (
     <>
+      <ToastContainer />
       <RouterProvider router={routs} />
     </>
   );

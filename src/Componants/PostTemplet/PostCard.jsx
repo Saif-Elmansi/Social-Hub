@@ -16,9 +16,15 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { authContext } from "../Context/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import MyDrop from "../DropDowen/MyDrop";
 
 export default function PostCard({ postData, comments }) {
   const { token } = useContext(authContext);
+
+  const queryClient = useQueryClient();
+  const profileData = queryClient.getQueryData(["dataProfile"]);
+  const userprofile = profileData?.data?.data.user;
+
   if (!postData) return null;
 
   const {
@@ -61,7 +67,7 @@ export default function PostCard({ postData, comments }) {
     );
   }
 
-  const { isPending, mutate  } = useMutation({
+  const { isPending, mutate } = useMutation({
     mutationFn: creatComment,
     onSuccess: function (data) {
       console.log("datamution", data);
@@ -75,6 +81,9 @@ export default function PostCard({ postData, comments }) {
       console.log(error);
     },
   });
+
+  // console.log(postData.user._id);
+  // console.log(userprofile._id);
 
   return (
     <Card className="w-full max-w-137.5 bg-[#242526] text-white border-none shadow-md my-4 overflow-hidden">
@@ -103,9 +112,8 @@ export default function PostCard({ postData, comments }) {
             </div>
           </div>
         </div>
-        <Button isIconOnly variant="light" size="sm" className="text-gray-400">
-          <More size={20} color="#ffffff" />
-        </Button>
+
+        {postData.user._id === userprofile._id && <MyDrop />}
       </CardHeader>
 
       {/* --- Body (Text & Image) --- */}

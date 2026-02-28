@@ -11,6 +11,7 @@ createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={clint}>
     <HeroUIProvider>
       <AuthContext>
+        
         <App />
       </AuthContext>
     </HeroUIProvider>
