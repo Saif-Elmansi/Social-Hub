@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import MyNavbar from "../../Componants/Navbar/MyNavbar";
 import { authContext } from "../../Componants/Context/AuthContext";
-import {  useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { Avatar, Button, Divider, Spinner } from "@heroui/react"; // ضيف Spinner للتحميل
 import { Edit2, More, Camera } from "iconsax-react";
 
@@ -9,14 +9,13 @@ export default function Profile() {
   const { token } = useContext(authContext);
 
   const queryClient = useQueryClient();
-  const profileData = queryClient.getQueryData(["dataProfile"]);  
+  const profileData = queryClient.getQueryData(["dataProfile"]);
   const user = profileData?.data?.data.user;
-  
-
 
   if (!user) return null;
 
-  const { name, username, photo, cover, followersCount, followingCount } = user;
+  const { name, username, photo,email, cover, followersCount, followingCount } = user;
+  console.log(user);
 
   return (
     <>
@@ -62,7 +61,7 @@ export default function Profile() {
 
             <div className="flex-1 text-center md:text-left mb-2">
               <h1 className="text-3xl font-bold mb-1">{name}</h1>
-              <p className="text-gray-400 font-medium mb-2">@{username}</p>
+              <p className="text-gray-400 font-medium mb-2">{email}</p>
               <div className="flex items-center justify-center md:justify-start gap-4 text-sm">
                 <span className="font-bold cursor-pointer hover:underline">
                   {followersCount}{" "}

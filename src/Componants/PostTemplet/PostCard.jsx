@@ -1,4 +1,4 @@
-import React, { use, useContext, useRef } from "react";
+import React, { use, useContext, useRef, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -20,10 +20,13 @@ import MyDrop from "../DropDowen/MyDrop";
 
 export default function PostCard({ postData, comments }) {
   const { token } = useContext(authContext);
+  const [dataPostUpdat,setDataPostUpdat]=useState(null)
 
   const queryClient = useQueryClient();
   const profileData = queryClient.getQueryData(["dataProfile"]);
   const userprofile = profileData?.data?.data.user;
+  const postDataQuery = queryClient.getQueryData(["allPosts"]);
+  const finalpostquary = postDataQuery?.data?.data.posts;
 
   if (!postData) return null;
 
@@ -82,8 +85,18 @@ export default function PostCard({ postData, comments }) {
     },
   });
 
-  // console.log(postData.user._id);
-  // console.log(userprofile._id);
+  // console.log(postData);
+  // console.log(userprofile);
+
+  function updatPost() {
+    console.log("update", id);
+    let updatepostdata = finalpostquary?.filter((post) => {
+      if (post.id === id) {
+        return post;
+      }
+    });
+    setDataPostUpdat(updatepostdata)
+  }
 
   return (
     <Card className="w-full max-w-137.5 bg-[#242526] text-white border-none shadow-md my-4 overflow-hidden">
@@ -113,7 +126,7 @@ export default function PostCard({ postData, comments }) {
           </div>
         </div>
 
-        {postData.user._id === userprofile._id && <MyDrop />}
+        {postData.user._id === userprofile._id && <MyDrop update={updatPost}  />}
       </CardHeader>
 
       {/* --- Body (Text & Image) --- */}
