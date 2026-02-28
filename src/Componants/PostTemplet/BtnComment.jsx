@@ -9,12 +9,18 @@ import {
   More,
 } from "iconsax-react";
 import image from "../../../public/Gemini_Generated_Image_kydc1rkydc1rkydc.png";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function BtnComment({ inputRef, fun, isPending, mutate }) {
+  const queryClient = useQueryClient();
+  const profileData = queryClient.getQueryData(["dataProfile"]);
+  const user = profileData?.data?.data.user;
+  
+  
   return (
     <div className="px-4 py-3 border-t border-white/5 bg-[#242526] w-full">
       <div className="flex gap-2 items-center">
-        <Avatar src={image} size="sm" className="shrink-0 w-8 h-8" />
+        <Avatar src={user?.photo} size="sm" className="shrink-0 w-8 h-8" />
 
         <div className="flex-1 relative">
           <div

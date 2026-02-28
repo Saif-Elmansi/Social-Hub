@@ -6,6 +6,7 @@ import PostCard from "../../Componants/PostTemplet/PostCard";
 import { Card, Skeleton, Spinner } from "@heroui/react";
 import PostSkeleton from "../../Componants/PostTemplet/PostSkeleton";
 import { useQueries, useQuery } from "@tanstack/react-query";
+import CreatPost from "../../Componants/CreatPost/CreatPost";
 
 export default function MainHome() {
   const { token } = useContext(authContext);
@@ -44,6 +45,7 @@ export default function MainHome() {
             </div>
           ) : (
             <div className="flex flex-col items-center px-4 pb-10 ">
+              <CreatPost/>
               {finalpost}
             </div>
           )}

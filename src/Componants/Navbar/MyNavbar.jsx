@@ -56,7 +56,7 @@ export default function MyNavbar() {
   });
 
   const user = data?.data?.data?.user;
-  console.log(user);
+  
 
   // if (isLoading) {
   //   return (
