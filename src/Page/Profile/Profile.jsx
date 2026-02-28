@@ -4,6 +4,7 @@ import { authContext } from "../../Componants/Context/AuthContext";
 import { useQueryClient } from "@tanstack/react-query";
 import { Avatar, Button, Divider, Spinner } from "@heroui/react"; // ضيف Spinner للتحميل
 import { Edit2, More, Camera } from "iconsax-react";
+import { Helmet } from "react-helmet";
 
 export default function Profile() {
   const { token } = useContext(authContext);
@@ -14,11 +15,22 @@ export default function Profile() {
 
   if (!user) return null;
 
-  const { name, username, photo,email, cover, followersCount, followingCount } = user;
+  const {
+    name,
+    username,
+    photo,
+    email,
+    cover,
+    followersCount,
+    followingCount,
+  } = user;
   console.log(user);
 
   return (
     <>
+      <Helmet>
+        <title>Social Hup | Profile |{name}</title>
+      </Helmet>
       <MyNavbar />
       <div className="w-full bg-[#242526] shadow-sm min-h-screen">
         <div className="relative h-48 sm:h-80 w-full max-w-6xl mx-auto overflow-hidden rounded-b-xl bg-[#3a3b3c]">

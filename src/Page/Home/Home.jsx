@@ -24,9 +24,13 @@ import image1 from "../../../public/Gemini_Generated_Image_8hhryh8hhryh8hhr.png"
 import image2 from "../../../public/Gemini_Generated_Image_kydc1rkydc1rkydc.png";
 
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 export default function Home() {
   return (
     <>
+      <Helmet>
+        <title>Social Hup | welcome</title>
+      </Helmet>
       <div
         className="relative flex min-h-screen w-full flex-col items-center overflow-hidden bg-[#1e60f0] text-white font-sans"
         style={{

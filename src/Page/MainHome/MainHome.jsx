@@ -8,6 +8,7 @@ import { useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
 import CreatPost from "../../Componants/CreatPost/CreatPost";
 import SuggestedUser from "../../Componants/Usersug/SuggestedUser";
 import MiniProfile from "../../Componants/MiniProfile/MiniProfile";
+import { Helmet } from "react-helmet";
 
 export default function MainHome() {
   const { token } = useContext(authContext);
@@ -71,11 +72,13 @@ export default function MainHome() {
     queryKey: ["userposts"],
   });
   let fuserposts = userposts?.data?.data?.posts;
-  let numuserposts = fuserposts.length;
-
+  // let numuserposts = fuserposts.length;
 
   return (
     <>
+      <Helmet>
+        <title>Social Hup | Feed</title>
+      </Helmet>
       <MyNavbar />
       <div className="bg-[#18191a] relative top-15 ">
         {" "}
@@ -90,7 +93,7 @@ export default function MainHome() {
             <div className="grid grid-cols-12 gap-4  px-4 pb-10 ">
               <div className="col-span-12 md:col-span-3 flex flex-col gap-6">
                 <div className="sticky top-20">
-                  <MiniProfile user={user} numposts={numuserposts} />{" "}
+                  <MiniProfile user={user} numposts={fuserposts} />{" "}
                   {/* ابعت بيانات اليوزر اللي عامل login */}
                 </div>
               </div>

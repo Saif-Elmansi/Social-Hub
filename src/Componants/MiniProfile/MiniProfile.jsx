@@ -56,7 +56,7 @@ export default function MiniProfile({ user,numposts }) {
           </div>
           <div className="flex flex-col items-center">
             <span className="text-white font-bold text-medium">
-              {numposts}
+              {numposts?.length}
             </span>
             <span className="text-[10px] text-default-500 uppercase">
               Posts

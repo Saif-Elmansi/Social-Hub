@@ -6,6 +6,7 @@ import { authContext } from "../../Componants/Context/AuthContext";
 import PostCard from "../../Componants/PostTemplet/PostCard";
 import PostSkeleton from "../../Componants/PostTemplet/PostSkeleton";
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 
 export default function PostDet() {
   const { postId } = useParams();
@@ -20,7 +21,7 @@ export default function PostDet() {
     });
   }
 
-  const { data,  isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryFn: getPostDet,
     queryKey: ["postdata", postId],
     staleTime: 1000 * 15,
@@ -48,6 +49,9 @@ export default function PostDet() {
 
   return (
     <>
+      <Helmet>
+        <title>Social Hup | PostDet |{data?.data?.data?.post.user.name}</title>
+      </Helmet>
       <MyNavbar />
       <div className="bg-[#18191a] relative top-15 ">
         {" "}
