@@ -84,7 +84,7 @@ export default function CreatPost() {
 
   return (
     <>
-      <div className="bg-[#242526] p-4 rounded-xl shadow-md w-full max-w-137.5 mx-auto flex gap-3 items-center">
+      <div className="bg-[#242526] p-4 rounded-xl shadow-md w-full  mx-auto flex gap-3 items-center">
         <Avatar src={user?.photo} size="md" />
         <Button
           onPress={onOpen}

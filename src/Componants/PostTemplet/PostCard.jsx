@@ -99,7 +99,7 @@ export default function PostCard({ postData, comments }) {
   }
 
   return (
-    <Card className="w-full max-w-137.5 bg-[#242526] text-white border-none shadow-md my-4 overflow-hidden">
+    <Card className="w-full  bg-[#242526] text-white border-none shadow-md my-4 overflow-hidden">
       {/* --- Header --- */}
       <CardHeader className="justify-between px-4 pt-4 pb-2">
         <div className="flex gap-3">
