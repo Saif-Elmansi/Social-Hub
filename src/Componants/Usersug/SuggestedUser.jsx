@@ -18,7 +18,7 @@ export default function SuggestedUser({ user }) {
             radius="full"
             size="lg"
             src={user?.photo}
-            className="flex-shrink-0"
+            className="shrink-0"
             color="primary"
           />
 
