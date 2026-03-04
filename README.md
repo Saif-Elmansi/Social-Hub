@@ -16,11 +16,16 @@ It provides user authentication, a protected news feed, interactive posts with c
   - Landing page (`/`) with marketing-style hero section explaining the app and CTAs for Register/Login.
   - Main feed (`/home`) showing a list of posts fetched from a backend API.
   - Loading skeletons (`PostSkeleton`) for smoother UX while fetching posts.
+  - Left sidebar **Mini Profile** card with quick stats (followers/following/posts) and shortcuts.
+  - Right sidebar **Suggested Users** list with follow UI state.
 
 - **Posts & Comments**
   - `PostCard` component showing post body, image, likes count, comments count, and top comment.
   - Post details page at `/postDetails/:postId` that shows a single post with its comments.
   - Ability to create comments on posts using **React Query mutations** and auto-refreshing the comments list.
+  - **Update Post** via an edit modal (`UpdatePost`) with text + optional image update.
+  - **Delete Post** from the post actions dropdown (owner-only).
+  - **Delete Comment** from the comment actions dropdown (owner-only).
 
 - **Profile Page**
   - Profile page that uses cached profile data (React Query) to display:
@@ -42,6 +47,7 @@ It provides user authentication, a protected news feed, interactive posts with c
   - Responsive layout with a fixed top navbar (`MyNavbar`) and modern, glassmorphism-inspired design.
   - Icons and visuals via `iconsax-react` and custom hero images.
   - Loading, success, and error feedback inside forms (e.g. login/register loaders and success messages).
+  - Toast notifications for key actions (create/update/delete post, delete comment).
 
 ---
 
@@ -79,11 +85,20 @@ src/
       Layout.jsx           # Root layout with routing outlet
     Navbar/
       MyNavbar.jsx         # Top navigation bar for authenticated area
+    DropDowen/
+      MyDrop.jsx           # Post actions dropdown (edit/delete)
+      MyDropCom.jsx        # Comment actions dropdown (edit/delete UI)
     PostTemplet/
       PostCard.jsx         # Post UI + comment creation
       BtnComment.jsx
       TopComment.jsx
       PostSkeleton.jsx
+    UpdatePost/
+      UpdatePost.jsx       # Edit post modal (update body/image)
+    MiniProfile/
+      MiniProfile.jsx      # Feed sidebar mini profile card
+    Usersug/
+      SuggestedUser.jsx    # Suggested users card in feed sidebar
     hero/
       Hero.jsx             # Hero section reused in auth pages
     BodyGard/
