@@ -6,10 +6,9 @@ import {
   Button,
 } from "@heroui/react";
 import { More } from "iconsax-react";
-import CreatPost from "../CreatPost/CreatPost";
 
-export default function MyDrop({ update}) {
 
+export default function MyDrop({ update, del }) {
   return (
     <Dropdown className="bg-[#242526] border border-white/10 shadow-xl">
       <DropdownTrigger>
@@ -34,7 +33,12 @@ export default function MyDrop({ update}) {
           Edit Post
         </DropdownItem>
 
-        <DropdownItem key="delete" color="danger" className="text-danger">
+        <DropdownItem
+          key="delete"
+          onPress={del}
+          color="danger"
+          className="text-danger"
+        >
           Delete Post
         </DropdownItem>
       </DropdownMenu>

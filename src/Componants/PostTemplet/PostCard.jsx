@@ -18,12 +18,11 @@ import axios from "axios";
 import { authContext } from "../Context/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import MyDrop from "../DropDowen/MyDrop";
-import { updatecontext } from "../Context/UpdateContext";
 import UpdatePost from "../UpdatePost/UpdatePost";
+import { toast } from "react-toastify";
 
 export default function PostCard({ postData, comments }) {
   const { token } = useContext(authContext);
-
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const queryClient = useQueryClient();
@@ -94,6 +93,21 @@ export default function PostCard({ postData, comments }) {
     onOpen();
   }
 
+  async function delPost() {
+    try {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/posts/${id}`, {
+        headers: {
+          token: token,
+        },
+      });
+      toast.success("Post Delete successfully! ✅");
+      queryClint.invalidateQueries("allPosts");
+    } catch (error) {
+      console.log(error);
+      toast.error("Post Delete Faild! ❌");
+    }
+  }
+
   return (
     <>
       <Card className="w-full max-w-186.5 bg-[#242526] text-white border-none shadow-md my-4 overflow-hidden">
@@ -124,7 +138,7 @@ export default function PostCard({ postData, comments }) {
           </div>
 
           {postData.user._id === userprofile._id && (
-            <MyDrop update={updatPost} />
+            <MyDrop update={updatPost} del={delPost} />
           )}
         </CardHeader>
 

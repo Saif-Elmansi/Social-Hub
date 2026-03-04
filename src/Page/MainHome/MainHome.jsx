@@ -9,11 +9,9 @@ import CreatPost from "../../Componants/CreatPost/CreatPost";
 import SuggestedUser from "../../Componants/Usersug/SuggestedUser";
 import MiniProfile from "../../Componants/MiniProfile/MiniProfile";
 import { Helmet } from "react-helmet";
-import { updatecontext } from "../../Componants/Context/UpdateContext";
 
 export default function MainHome() {
   const { token } = useContext(authContext);
-  const { postUpdate, setPostUpdate } = useContext(updatecontext);
 
   async function getAllPost() {
     return axios(`${import.meta.env.VITE_API_URL}/posts`, {
@@ -76,7 +74,6 @@ export default function MainHome() {
   let fuserposts = userposts?.data?.data?.posts;
   // let numuserposts = fuserposts.length;
 
-  console.log(postUpdate);
   
 
   return (
