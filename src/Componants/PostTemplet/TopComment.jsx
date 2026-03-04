@@ -9,6 +9,8 @@ import { useQueryClient } from "@tanstack/react-query";
 export default function TopComment({ commentData, id }) {
   const { token } = useContext(authContext);
   const queryClient = useQueryClient();
+  const profileData = queryClient.getQueryData(["dataProfile"]);
+  const userprofile = profileData?.data?.data?.user;
 
   console.log(id);
   
@@ -59,9 +61,11 @@ export default function TopComment({ commentData, id }) {
               {content}
             </p>
           </div>
-          <div className="self-start ">
-            <MyDropCom delCom={delCom} />
-          </div>
+          {commentCreator?._id === userprofile?._id && (
+            <div className="self-start ">
+              <MyDropCom delCom={delCom} />
+            </div>
+          )}
         </div>
 
         <div className="flex gap-4 mt-1 ml-2 text-[12px] font-bold text-[#b0b3b8]">
