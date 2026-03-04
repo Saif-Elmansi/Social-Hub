@@ -46,11 +46,14 @@ export default function PostDet() {
     gcTime: 1000 * 60 * 2,
   });
   console.log(commentsData?.data?.data?.comments);
+  console.log(data?.data?.data?.post.user.name);
+
+  
 
   return (
     <>
       <Helmet>
-        <title>Social Hup | PostDet |{data?.data?.data?.post.user.name}</title>
+        <title>Social Hup | PostDet| {data?.data?.data?.post?.user?.name} </title>
       </Helmet>
       <MyNavbar />
       <div className="bg-[#18191a] relative top-15 ">

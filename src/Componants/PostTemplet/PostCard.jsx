@@ -6,6 +6,7 @@ import {
   CardFooter,
   Avatar,
   Button,
+  useDisclosure,
   Divider,
   Image,
 } from "@heroui/react";
@@ -17,10 +18,14 @@ import axios from "axios";
 import { authContext } from "../Context/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import MyDrop from "../DropDowen/MyDrop";
+import { updatecontext } from "../Context/UpdateContext";
+import UpdatePost from "../UpdatePost/UpdatePost";
 
 export default function PostCard({ postData, comments }) {
   const { token } = useContext(authContext);
-  const [dataPostUpdat,setDataPostUpdat]=useState(null)
+  const { postUpdate, setPostUpdate } = useContext(updatecontext);
+  const [dataPostUpdat, setDataPostUpdat] = useState(null);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const queryClient = useQueryClient();
   const profileData = queryClient.getQueryData(["dataProfile"]);
@@ -85,141 +90,144 @@ export default function PostCard({ postData, comments }) {
     },
   });
 
-  // console.log(postData);
-  // console.log(userprofile);
+
 
   function updatPost() {
-    console.log("update", id);
-    let updatepostdata = finalpostquary?.filter((post) => {
-      if (post.id === id) {
-        return post;
-      }
-    });
-    setDataPostUpdat(updatepostdata)
+    console.log("Opening update modal for post:", id);
+    onOpen();
   }
 
   return (
-    <Card className="w-full  bg-[#242526] text-white border-none shadow-md my-4 overflow-hidden">
-      {/* --- Header --- */}
-      <CardHeader className="justify-between px-4 pt-4 pb-2">
-        <div className="flex gap-3">
-          <Avatar
-            isBordered
-            radius="full"
-            size="md"
-            src={user?.photo}
-            className="border-blue-500"
-          />
-          <div className="flex flex-col gap-0.5 items-start justify-center">
-            <h4 className="text-small font-bold leading-none text-white hover:underline cursor-pointer">
-              {user?.name}
-            </h4>
-            <div className="flex items-center gap-1 text-[12px] text-[#b0b3b8]">
-              <span>
-                <Link to={`/postDetails/${id}`} className="hover:underline">
-                  {postDate}
-                </Link>
-              </span>
-              <span>•</span>
-              <Global size={12} variant="Bold" />
+    <>
+      <Card  className="w-full max-w-186.5 bg-[#242526] text-white border-none shadow-md my-4 overflow-hidden">
+        {/* --- Header --- */}
+        <CardHeader className="justify-between px-4 pt-4 pb-2">
+          <div className="flex gap-3">
+            <Avatar
+              isBordered
+              radius="full"
+              size="md"
+              src={user?.photo}
+              className="border-blue-500"
+            />
+            <div className="flex flex-col gap-0.5 items-start justify-center">
+              <h4 className="text-small font-bold leading-none text-white hover:underline cursor-pointer">
+                {user?.name}
+              </h4>
+              <div className="flex items-center gap-1 text-[12px] text-[#b0b3b8]">
+                <span>
+                  <Link to={`/postDetails/${id}`} className="hover:underline">
+                    {postDate}
+                  </Link>
+                </span>
+                <span>•</span>
+                <Global size={12} variant="Bold" />
+              </div>
             </div>
           </div>
-        </div>
 
-        {postData.user._id === userprofile._id && <MyDrop update={updatPost}  />}
-      </CardHeader>
+          {postData.user._id === userprofile._id && (
+            <MyDrop update={updatPost} />
+          )}
+        </CardHeader>
 
-      {/* --- Body (Text & Image) --- */}
-      <CardBody className="px-4 py-2 text-[15px] text-gray-200">
-        <p dir="auto" className="mb-3">
-          {body}
-        </p>
-        {image && (
-          <div className="rounded-lg overflow-hidden flex justify-center border border-white/5 bg-[#18191a]">
-            <Image
-              alt="post"
-              className="w-full h-auto object-contain " // التعديل هنا
-              src={image}
-            />
+        {/* --- Body (Text & Image) --- */}
+        <CardBody className="px-4 py-2 text-[15px] text-gray-200">
+          <p dir="auto" className="mb-3">
+            {body}
+          </p>
+          {image && (
+            <div className="rounded-lg overflow-hidden flex justify-center border border-white/5 bg-[#18191a]">
+              <Image
+                alt="post"
+                className="w-full h-auto object-contain " // التعديل هنا
+                src={image}
+              />
+            </div>
+          )}
+        </CardBody>
+
+        {/* --- Stats --- */}
+        <div className="px-4 py-2 flex justify-between items-center text-[#b0b3b8] text-xs">
+          <div className="flex items-center gap-1.5">
+            <div className="bg-blue-500 rounded-full p-1 shadow-sm">
+              <Like1 size={10} variant="Bold" color="white" />
+            </div>
+            <span className="hover:underline cursor-pointer">{likesCount}</span>
           </div>
-        )}
-      </CardBody>
-
-      {/* --- Stats --- */}
-      <div className="px-4 py-2 flex justify-between items-center text-[#b0b3b8] text-xs">
-        <div className="flex items-center gap-1.5">
-          <div className="bg-blue-500 rounded-full p-1 shadow-sm">
-            <Like1 size={10} variant="Bold" color="white" />
+          <div className="flex gap-3">
+            <span className="hover:underline cursor-pointer">
+              {commentsCount} comments
+            </span>
+            <span className="hover:underline cursor-pointer">0 shares</span>
           </div>
-          <span className="hover:underline cursor-pointer">{likesCount}</span>
         </div>
-        <div className="flex gap-3">
-          <span className="hover:underline cursor-pointer">
-            {commentsCount} comments
-          </span>
-          <span className="hover:underline cursor-pointer">0 shares</span>
+
+        <div className="px-4">
+          <Divider className="bg-white/10" />
         </div>
-      </div>
 
-      <div className="px-4">
-        <Divider className="bg-white/10" />
-      </div>
+        {/* --- Action Buttons --- */}
+        <CardFooter className="px-2 py-1 justify-between gap-1">
+          {/* زر الـ Like */}
+          <Button
+            variant="light"
+            className="flex-1 text-[#b0b3b8] hover:bg-white/5 font-semibold text-sm h-9 gap-2"
+            startContent={<Like1 size={20} />}
+          >
+            Like
+          </Button>
 
-      {/* --- Action Buttons --- */}
-      <CardFooter className="px-2 py-1 justify-between gap-1">
-        {/* زر الـ Like */}
-        <Button
-          variant="light"
-          className="flex-1 text-[#b0b3b8] hover:bg-white/5 font-semibold text-sm h-9 gap-2"
-          startContent={<Like1 size={20} />}
-        >
-          Like
-        </Button>
+          {/* زر الـ Comment */}
+          <Button
+            variant="light"
+            className="flex-1 text-[#b0b3b8] hover:bg-white/5 font-semibold text-sm h-9 gap-2"
+            startContent={<MessageText1 size={20} />}
+          >
+            Comment
+          </Button>
 
-        {/* زر الـ Comment */}
-        <Button
-          variant="light"
-          className="flex-1 text-[#b0b3b8] hover:bg-white/5 font-semibold text-sm h-9 gap-2"
-          startContent={<MessageText1 size={20} />}
-        >
-          Comment
-        </Button>
+          {/* زر الـ Share */}
+          <Button
+            variant="light"
+            className="flex-1 text-[#b0b3b8] hover:bg-white/5 font-semibold text-sm h-9 gap-2"
+            startContent={<ExportCurve size={20} />}
+          >
+            Share
+          </Button>
+        </CardFooter>
 
-        {/* زر الـ Share */}
-        <Button
-          variant="light"
-          className="flex-1 text-[#b0b3b8] hover:bg-white/5 font-semibold text-sm h-9 gap-2"
-          startContent={<ExportCurve size={20} />}
-        >
-          Share
-        </Button>
-      </CardFooter>
+        <BtnComment
+          inputRef={inputRef}
+          fun={creatComment}
+          isPending={isPending}
+          mutate={mutate}
+        />
 
-      <BtnComment
-        inputRef={inputRef}
-        fun={creatComment}
-        isPending={isPending}
-        mutate={mutate}
-      />
-
-      {topComment && (
-        <div
-          className="pb-3 border-t border-white/5 pt-2 overflow-y-scroll scrollbar-thin 
+        {topComment && (
+          <div
+            className="pb-3 border-t border-white/5 pt-2 overflow-y-scroll scrollbar-thin 
                 scrollbar-thumb-[#3e4042] 
                 scrollbar-track-[#18191a]"
-        >
-          {comments ? fcomment : <TopComment commentData={topComment} />}
-          {comments?.length ? (
-            ""
-          ) : (
-            <button className="text-[13px] font-semibold text-[#b0b3b8] px-4 hover:underline">
-              <Link to={`/postDetails/${id}`} className="hover:underline">
-                View more comments
-              </Link>
-            </button>
-          )}
-        </div>
-      )}
-    </Card>
+          >
+            {comments ? fcomment : <TopComment commentData={topComment} />}
+            {comments?.length ? (
+              ""
+            ) : (
+              <button className="text-[13px] font-semibold text-[#b0b3b8] px-4 hover:underline">
+                <Link to={`/postDetails/${id}`} className="hover:underline">
+                  View more comments
+                </Link>
+              </button>
+            )}
+          </div>
+        )}
+      </Card>
+      <UpdatePost
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        postData={postData}
+      />
+    </>
   );
 }

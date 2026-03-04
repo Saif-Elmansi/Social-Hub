@@ -161,7 +161,6 @@ export default function CreatPost() {
                       className="text-green-500 hover:bg-green-500/10 cursor-pointer"
                     >
                       <GalleryAdd variant="Bold" size={24} color="#45bd62" />{" "}
-                      {/* غيرت اللون للأخضر عشان يبقى شبه فيسبوك */}
                     </Button>
                   </div>
                 </div>
