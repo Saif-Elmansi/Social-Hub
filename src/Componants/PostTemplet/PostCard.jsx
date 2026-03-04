@@ -52,7 +52,7 @@ export default function PostCard({ postData, comments }) {
   });
 
   let fcomment = comments?.map((comment) => (
-    <TopComment key={comment._id} commentData={comment} />
+    <TopComment key={comment._id} commentData={comment} id={id} />
   ));
 
   const inputRef = useRef(null);
@@ -221,7 +221,7 @@ export default function PostCard({ postData, comments }) {
                 scrollbar-thumb-[#3e4042] 
                 scrollbar-track-[#18191a]"
           >
-            {comments ? fcomment : <TopComment commentData={topComment} />}
+            {comments ? fcomment : <TopComment id={id} commentData={topComment} />}
             {comments?.length ? (
               ""
             ) : (

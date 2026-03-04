@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Avatar } from "@heroui/react";
+import MyDropCom from "../DropDowen/MyDropCom";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { authContext } from "../Context/AuthContext";
+import { useQueryClient } from "@tanstack/react-query";
 
-export default function TopComment({ commentData }) {
+export default function TopComment({ commentData, id }) {
+  const { token } = useContext(authContext);
+  const queryClient = useQueryClient();
+
+  console.log(id);
+  
   if (!commentData) return null;
 
   const { content, commentCreator, createdAt } = commentData;
@@ -13,8 +23,26 @@ export default function TopComment({ commentData }) {
     minute: "2-digit",
   });
 
+  async function delCom() {
+    try {
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/posts/${id}/comments/${commentData._id}`,
+        {
+          headers: {
+            token: token,
+          },
+        },
+      );
+      toast.success("Comment Delete successfully! ✅");
+      queryClient.invalidateQueries("allPosts");
+    } catch (error) {
+      console.log(error);
+      toast.error("Comment Delete Faild! ❌");
+    }
+  }
+
   return (
-    <div className="flex gap-2 px-4 py-2 group mb-2">
+    <div className="flex w-full gap-2 px-4 py-2 group mb-2">
       <Avatar
         src={commentCreator?.photo}
         size="sm"
@@ -22,13 +50,18 @@ export default function TopComment({ commentData }) {
       />
 
       <div className="flex flex-col flex-1">
-        <div className="bg-[#3a3b3c] rounded-2xl px-3 py-2 max-w-fit shadow-sm">
-          <h5 className="text-[13px] font-bold text-white hover:underline cursor-pointer leading-tight">
-            {commentCreator?.name}
-          </h5>
-          <p className="text-[14px] text-gray-200 leading-snug mt-0.5">
-            {content}
-          </p>
+        <div className="bg-[#3a3b3c]  rounded-2xl flex justify-between gap-2 px-3 py-2 shadow-sm">
+          <div>
+            <h5 className="text-[13px] font-bold text-white hover:underline cursor-pointer leading-tight">
+              {commentCreator?.name}
+            </h5>
+            <p className="text-[14px] text-gray-200 leading-snug mt-0.5">
+              {content}
+            </p>
+          </div>
+          <div className="self-start ">
+            <MyDropCom delCom={delCom} />
+          </div>
         </div>
 
         <div className="flex gap-4 mt-1 ml-2 text-[12px] font-bold text-[#b0b3b8]">
